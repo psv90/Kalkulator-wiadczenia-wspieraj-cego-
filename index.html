@@ -62,7 +62,7 @@
   td.rev.revon{background:#fef3c7;box-shadow:inset 0 0 0 2px var(--warn)}
   select,input[type=number]{font:inherit;font-size:13px;padding:5px 7px;border:1px solid var(--line);
     border-radius:7px;background:#fff;color:var(--text)}
-  select.type{min-width:176px}
+  select.type{min-width:210px}
   select.freq{min-width:146px}
   select:disabled{background:#f8fafc;color:#cbd5e1}
   .toggle{display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden}
@@ -104,11 +104,8 @@
   .legend{font-size:12px;color:#475569;padding:12px 16px;border-top:1px solid var(--line)}
   .legend b{color:#0f172a}
   .legend .row{margin:3px 0}
-  .defs{margin-top:8px}
-  .defs > summary{cursor:pointer;font-weight:600;color:var(--accent);padding:4px 0;
-    list-style:none;user-select:none}
-  .defs > summary::before{content:"▸ ";}
-  .defs[open] > summary::before{content:"▾ ";}
+  .defs{margin-top:10px;padding-top:8px;border-top:1px solid var(--line)}
+  .defs-title{font-weight:700;color:#0f172a;margin-bottom:2px}
   .defs p{margin:6px 0}
   .defs ul{margin:4px 0 8px;padding-left:18px}
   .defs li{margin:3px 0}
@@ -218,12 +215,6 @@
 
 <div class="layout">
   <div class="card" id="gridCard">
-    <div class="toolbar">
-      <button class="btn" id="allSelf">Wszystkie: samodzielnie</button>
-      <button class="btn" id="allSup">Wszystkie: wymaga wsparcia</button>
-      <button class="btn" id="setMax">Ustaw maksimum (WS / zawsze)</button>
-      <button class="btn primary" id="reset">Wyczyść</button>
-    </div>
     <div style="overflow-x:auto">
       <table id="grid">
         <thead>
@@ -231,25 +222,25 @@
             <th class="num">#</th>
             <th class="act">Czynność</th>
             <th>Zdolność</th>
-            <th class="revh" title="Zaznacz czynności, które wymagają jeszcze przemyślenia">Do przemyślenia</th>
             <th>Rodzaj wsparcia</th>
             <th>Częstotliwość</th>
             <th class="prod">Wynik</th>
+            <th class="revh" title="Zaznacz czynności, które wymagają jeszcze przemyślenia">Do przemyślenia</th>
           </tr>
         </thead>
         <tbody id="rows"></tbody>
       </table>
     </div>
     <div class="legend">
-      <div class="row"><b>Rodzaj wsparcia:</b> WT towarzyszące (0,80) · WC częściowe (0,90) ·
-        WP pełne (0,99) · WS szczególne (1,00)</div>
+      <div class="row"><b>Rodzaj wsparcia:</b> wsparcie towarzyszące (0,80) · wsparcie częściowe (0,90) ·
+        wsparcie pełne (0,99) · wsparcie szczególne (1,00)</div>
       <div class="row"><b>Częstotliwość:</b> czasami (0,50) · często (0,75) · bardzo często (0,95) ·
         zawsze (1,00)</div>
       <div class="row"><b>Wzór dla czynności:</b> <code>zdolność(1) × rodzaj × częstotliwość × waga(4)</code>,
         zaokrąglane w górę do 3 miejsc. <span class="hint">Suma 25 najwyższych = poziom potrzeby wsparcia (zaokrąglany w górę).</span></div>
-      <details class="defs">
-        <summary>Definicje rodzajów wymaganego wsparcia (WT, WC, WP, WS)</summary>
-        <p><b>WT – wsparcie towarzyszące (0,80)</b> – zależnie od rodzaju niepełnosprawności:</p>
+      <div class="defs">
+        <div class="defs-title">Definicje rodzajów wymaganego wsparcia</div>
+        <p><b>wsparcie towarzyszące (0,80)</b> – zależnie od rodzaju niepełnosprawności:</p>
         <ul>
           <li><b>fizyczna</b> – konieczność stymulacji lub instruowania osoby werbalnie lub gestem podczas
             samodzielnego wykonywania przez nią czynności albo przygotowanie elementów niezbędnych do
@@ -264,20 +255,20 @@
             czynności (z przygotowaniem lub bez niezbędnych elementów) lub instruowania w celu zapobiegnięcia
             niebezpiecznym następstwom zachowań.</li>
         </ul>
-        <p><b>WC – wsparcie częściowe (0,90)</b> – konieczność współpracy z osobą przy częściowym lub całkowitym
+        <p><b>wsparcie częściowe (0,90)</b> – konieczność współpracy z osobą przy częściowym lub całkowitym
           wykonywaniu przez nią czynności (z przygotowaniem lub bez niezbędnych elementów), lub współpracy
           w celu zapobiegnięcia niebezpiecznym następstwom zachowań, lub częściowej kompensacji funkcji
           organizmu przez stosowanie technologii wspomagających.</p>
-        <p><b>WP – wsparcie pełne (0,99)</b> – konieczność całkowitego wyręczenia osoby w wykonywaniu czynności
+        <p><b>wsparcie pełne (0,99)</b> – konieczność całkowitego wyręczenia osoby w wykonywaniu czynności
           przez inną osobę, w związku z całkowitym brakiem zdolności do samodzielnego ich wykonania, lub
           całkowitej kompensacji funkcji organizmu przez stosowanie technologii wspomagających.</p>
-        <p><b>WS – wsparcie szczególne (1,00)</b> – konieczność udzielenia jednego z rodzajów wsparcia WT–WP
+        <p><b>wsparcie szczególne (1,00)</b> – konieczność udzielenia jednego z pozostałych rodzajów wsparcia
           w połączeniu z koniecznością stosowania rozwiązań niezbędnych (w szczególności technologii
           wspomagających) do podtrzymania lub całkowitej kompensacji podstawowych funkcji organizmu, albo do
           zapewnienia bezpieczeństwa własnego lub innych osób w sytuacji zachowań niebezpiecznych,
           agresywnych lub oporujących.</p>
         <p class="src">Źródło: rozporządzenie z 23.11.2023 r. (Dz.U. 2023 poz. 2581), § 9 ust. 5.</p>
-      </details>
+      </div>
     </div>
   </div>
 
@@ -519,15 +510,12 @@ function buildRows(){
           <label class="sup" for="sup${i}">Wsparcie</label>
         </span>
       </td>
-      <td class="rev" data-label="Do przemyślenia">
-        <input type="checkbox" class="review" id="rev${i}" title="Do przemyślenia">
-      </td>
       <td class="suptd" data-label="Rodzaj wsparcia">
         <select class="type" data-i="${i}" disabled>
-          <option value="WT">WT – towarzyszące (0,80)</option>
-          <option value="WC">WC – częściowe (0,90)</option>
-          <option value="WP">WP – pełne (0,99)</option>
-          <option value="WS">WS – szczególne (1,00)</option>
+          <option value="WT">wsparcie towarzyszące (0,80)</option>
+          <option value="WC">wsparcie częściowe (0,90)</option>
+          <option value="WP">wsparcie pełne (0,99)</option>
+          <option value="WS">wsparcie szczególne (1,00)</option>
         </select>
       </td>
       <td class="freqtd" data-label="Częstotliwość">
@@ -538,7 +526,10 @@ function buildRows(){
           <option value="A">zawsze (1,00)</option>
         </select>
       </td>
-      <td class="prod zero" id="prod${i}" data-label="Wynik">0.000</td>`;
+      <td class="prod zero" id="prod${i}" data-label="Wynik">0.000</td>
+      <td class="rev" data-label="Do przemyślenia">
+        <input type="checkbox" class="review" id="rev${i}" title="Do przemyślenia">
+      </td>`;
     rowsEl.appendChild(tr);
 
     tr.querySelector(`#self${i}`).addEventListener('change',()=>{state[i].needs=false;syncRow(i);compute();});
@@ -642,21 +633,6 @@ function compute(){
   saveState();
 }
 
-// toolbar
-function setAll(needs, type, freq){
-  state.forEach((s,i)=>{
-    s.needs=needs; if(type)s.type=type; if(freq)s.freq=freq;
-    rowsEl.children[i].querySelector(needs?`#sup${i}`:`#self${i}`).checked=true;
-    if(type) rowsEl.children[i].querySelector('.type').value=type;
-    if(freq) rowsEl.children[i].querySelector('.freq').value=freq;
-    syncRow(i);
-  });
-  compute();
-}
-document.getElementById('allSelf').onclick=()=>setAll(false);
-document.getElementById('allSup').onclick =()=>setAll(true,'WC','C');
-document.getElementById('setMax').onclick =()=>setAll(true,'WS','A');
-document.getElementById('reset').onclick   =()=>setAll(false,'WT','D');
 document.getElementById('renta').addEventListener('input',compute);
 
 // --- dymki z opisami czynności ---
