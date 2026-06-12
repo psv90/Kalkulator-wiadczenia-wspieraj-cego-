@@ -59,9 +59,7 @@
   th.revh,td.rev{text-align:center;width:78px}
   th.revh{font-size:10px}
   td.rev input{width:17px;height:17px;cursor:pointer;accent-color:var(--warn)}
-  tbody tr.review{background:#fffbeb}
-  tbody tr.review.counted{background:#fef3c7}
-  tbody tr.review td.rev{box-shadow:inset -3px 0 0 var(--warn)}
+  td.rev.revon{background:#fef3c7;box-shadow:inset 0 0 0 2px var(--warn)}
   select,input[type=number]{font:inherit;font-size:13px;padding:5px 7px;border:1px solid var(--line);
     border-radius:7px;background:#fff;color:var(--text)}
   select.type{min-width:176px}
@@ -106,44 +104,79 @@
   .legend{font-size:12px;color:#475569;padding:12px 16px;border-top:1px solid var(--line)}
   .legend b{color:#0f172a}
   .legend .row{margin:3px 0}
-  /* podsumowanie jak w decyzji */
-  .summary{max-width:1560px;margin:18px auto 0;padding:0 16px}
-  .summary .head{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;
-    padding:14px 16px;border-bottom:1px solid var(--line);background:#f8fafc}
-  .summary .head h2{border:0;padding:0;background:none}
-  .summary .total{font-size:14px}
-  .summary .total b{font-size:20px;color:var(--accent)}
-  .sumlist{list-style:none;margin:0;padding:14px 16px;columns:2;column-gap:34px;font-size:13.5px;
-    font-variant-numeric:tabular-nums}
-  @media(max-width:760px){.sumlist{columns:1}}
-  .sumlist li{break-inside:avoid;padding:4px 0;border-bottom:1px solid #f3f4f6;display:flex;
-    justify-content:space-between;gap:14px;align-items:baseline}
-  .sumlist li .nm{color:#334155}
-  .sumlist li .nm i{color:var(--muted);font-style:normal;margin-right:6px}
-  .sumlist li .pv{font-weight:600;white-space:nowrap}
-  .sumlist li.z .pv{color:#cbd5e1;font-weight:400}
-  .sumlist li.c{background:var(--counted)}
-  .sumlist li.c .pv{color:var(--accent)}
+  .defs{margin-top:8px}
+  .defs > summary{cursor:pointer;font-weight:600;color:var(--accent);padding:4px 0;
+    list-style:none;user-select:none}
+  .defs > summary::before{content:"▸ ";}
+  .defs[open] > summary::before{content:"▾ ";}
+  .defs p{margin:6px 0}
+  .defs ul{margin:4px 0 8px;padding-left:18px}
+  .defs li{margin:3px 0}
+  .defs .src{color:var(--muted);font-size:11px;margin-top:8px}
 
   /* profile osób */
   .profiles{max-width:1560px;margin:14px auto 0;padding:0 16px}
   .profiles .pwrap{display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:12px 16px}
   .profiles strong{font-size:13.5px;color:#0f172a;margin-right:2px}
-  .profiles input[type=text]{flex:1 1 200px;min-width:170px;padding:7px 9px;border:1px solid var(--line);
-    border-radius:8px;font:inherit;font-size:13px}
+  .profiles input[type=text]{flex:0 1 230px;width:230px;min-width:140px;padding:7px 9px;
+    border:1px solid var(--line);border-radius:8px;font:inherit;font-size:13px}
   .profiles select{min-width:200px}
   .profiles .sep{width:1px;height:24px;background:var(--line);margin:0 4px}
   .profiles .pstatus{font-size:12.5px;color:var(--ok);font-weight:600;margin-left:auto}
   .profiles .phint{font-size:12px;color:var(--muted);padding:0 16px 12px}
 
-  @media print{
-    header,.toolbar,aside,.legend,.disclaimer .actions,button,.profiles{display:none!important}
-    body{background:#fff}
-    .layout{display:block;max-width:100%}
-    .card .h-grid{display:none}
-    #gridCard{display:none}
-    .summary{max-width:100%}
-    .summary .head{background:#fff}
+
+  /* ====== widok mobilny ====== */
+  @media(max-width:700px){
+    header{padding:16px 14px}
+    header h1{font-size:18px}
+    header p{font-size:12.5px}
+    .layout{margin:12px auto;padding:0 10px;gap:12px}
+    .profiles{padding:0 10px}
+    .disclaimer{padding:0 10px}
+
+    /* pasek profili pionowo */
+    .profiles .pwrap{flex-direction:column;align-items:stretch;gap:8px}
+    .profiles .sep{display:none}
+    .profiles input[type=text],.profiles select,.profiles button{width:100%;min-width:0}
+    .profiles .pstatus{margin:0;text-align:center}
+
+    /* przyciski narzędzi pełna szerokość */
+    .toolbar{padding:10px}
+    .toolbar .btn{flex:1 1 46%}
+
+    /* tabela -> karty */
+    #grid,#grid tbody,#grid tr,#grid td{display:block;width:auto}
+    #grid thead{display:none}
+    #gridCard > div[style*="overflow"]{overflow:visible!important}
+    #grid tr{border:1px solid var(--line);border-radius:12px;background:#fff;
+      margin:10px;padding:6px 12px 10px}
+    #grid tr.counted{background:var(--counted);border-color:var(--countedline)}
+    #grid tr.counted td:first-child{box-shadow:none}
+    #grid td{border:0;padding:7px 0;border-bottom:1px solid #f1f5f9;
+      display:flex;align-items:center;justify-content:space-between;gap:12px}
+    #grid td:last-child{border-bottom:0}
+    #grid td.num{display:none}
+    #grid td::before{content:attr(data-label);color:var(--muted);font-size:12px;
+      font-weight:600;flex:0 0 auto}
+    #grid td.act{display:block;font-weight:700;font-size:15px;padding:2px 0 8px;
+      border-bottom:2px solid var(--line);margin-bottom:2px}
+    #grid td.act::before{display:none}
+    .actname{border-bottom:0}
+    .actname::after{content:" ⓘ";color:var(--accent);font-weight:700}
+    #grid td.rev{width:auto}
+    #grid td.rev input{width:22px;height:22px}
+    #grid td.rev.revon{padding:7px 8px;border-radius:8px}
+    #grid select.type,#grid select.freq{min-width:0;width:62%;max-width:240px}
+    #grid td.prod{font-size:15px;font-weight:700}
+    #grid td.prod.zero{color:#94a3b8}
+    .toggle label{padding:8px 12px;font-size:13px}
+
+    /* dymek na całą szerokość */
+    #tip{max-width:calc(100vw - 24px)}
+
+    .score .pts{font-size:40px}
+    .amount{font-size:26px}
   }
 
   .disclaimer{max-width:1560px;margin:6px auto 30px;padding:0 16px;font-size:12px;color:var(--muted)}
@@ -214,6 +247,37 @@
         zawsze (1,00)</div>
       <div class="row"><b>Wzór dla czynności:</b> <code>zdolność(1) × rodzaj × częstotliwość × waga(4)</code>,
         zaokrąglane w górę do 3 miejsc. <span class="hint">Suma 25 najwyższych = poziom potrzeby wsparcia (zaokrąglany w górę).</span></div>
+      <details class="defs">
+        <summary>Definicje rodzajów wymaganego wsparcia (WT, WC, WP, WS)</summary>
+        <p><b>WT – wsparcie towarzyszące (0,80)</b> – zależnie od rodzaju niepełnosprawności:</p>
+        <ul>
+          <li><b>fizyczna</b> – konieczność stymulacji lub instruowania osoby werbalnie lub gestem podczas
+            samodzielnego wykonywania przez nią czynności albo przygotowanie elementów niezbędnych do
+            samodzielnego ich wykonania.</li>
+          <li><b>sensoryczna</b> – konieczność dostarczenia osobie informacji niezbędnych do samodzielnego
+            wykonania czynności dostępnym kanałem komunikacyjnym, z przygotowaniem lub bez przygotowania
+            niezbędnych elementów.</li>
+          <li><b>intelektualna</b> – konieczność instruowania lub ukierunkowania osoby w podejmowaniu decyzji,
+            wskazywania kolejnych etapów czynności złożonej lub koordynowania działań, albo instruowania
+            w celu zapobiegnięcia niebezpiecznym następstwom zachowań.</li>
+          <li><b>psychiczna</b> – konieczność stymulacji osoby w celu zainicjowania samodzielnego wykonania
+            czynności (z przygotowaniem lub bez niezbędnych elementów) lub instruowania w celu zapobiegnięcia
+            niebezpiecznym następstwom zachowań.</li>
+        </ul>
+        <p><b>WC – wsparcie częściowe (0,90)</b> – konieczność współpracy z osobą przy częściowym lub całkowitym
+          wykonywaniu przez nią czynności (z przygotowaniem lub bez niezbędnych elementów), lub współpracy
+          w celu zapobiegnięcia niebezpiecznym następstwom zachowań, lub częściowej kompensacji funkcji
+          organizmu przez stosowanie technologii wspomagających.</p>
+        <p><b>WP – wsparcie pełne (0,99)</b> – konieczność całkowitego wyręczenia osoby w wykonywaniu czynności
+          przez inną osobę, w związku z całkowitym brakiem zdolności do samodzielnego ich wykonania, lub
+          całkowitej kompensacji funkcji organizmu przez stosowanie technologii wspomagających.</p>
+        <p><b>WS – wsparcie szczególne (1,00)</b> – konieczność udzielenia jednego z rodzajów wsparcia WT–WP
+          w połączeniu z koniecznością stosowania rozwiązań niezbędnych (w szczególności technologii
+          wspomagających) do podtrzymania lub całkowitej kompensacji podstawowych funkcji organizmu, albo do
+          zapewnienia bezpieczeństwa własnego lub innych osób w sytuacji zachowań niebezpiecznych,
+          agresywnych lub oporujących.</p>
+        <p class="src">Źródło: rozporządzenie z 23.11.2023 r. (Dz.U. 2023 poz. 2581), § 9 ust. 5.</p>
+      </details>
     </div>
   </div>
 
@@ -253,19 +317,6 @@
       </div>
     </div>
   </aside>
-</div>
-
-<div class="summary">
-  <div class="card">
-    <div class="head">
-      <h2>Podsumowanie – wartości punktowe za każdą czynność</h2>
-      <div class="total">Poziom potrzeby wsparcia:
-        <b><span id="sumPoints">0</span> pkt</b> <span style="color:var(--muted)">(skala 0–100)</span>
-        &nbsp;·&nbsp; <button class="btn" id="printBtn">Drukuj / zapisz PDF</button>
-      </div>
-    </div>
-    <ol class="sumlist" id="sumlist"></ol>
-  </div>
 </div>
 
 <div class="disclaimer">
@@ -404,7 +455,7 @@ function applyStateToUI(){
     tr.querySelector('.type').value=s.type;
     tr.querySelector('.freq').value=s.freq;
     tr.querySelector('.review').checked=!!s.review;
-    tr.classList.toggle('review',!!s.review);
+    tr.querySelector('.rev').classList.toggle('revon',!!s.review);
     syncRow(i);
   });
   updateReviewCount();
@@ -460,7 +511,7 @@ function buildRows(){
     tr.innerHTML=`
       <td class="num">${i+1}</td>
       <td class="act"><span class="actname" data-i="${i}">${name}</span></td>
-      <td class="cap">
+      <td class="cap" data-label="Zdolność">
         <span class="toggle">
           <input type="radio" class="r-self" name="cap${i}" id="self${i}" checked>
           <label for="self${i}">Samodzielnie</label>
@@ -468,10 +519,10 @@ function buildRows(){
           <label class="sup" for="sup${i}">Wsparcie</label>
         </span>
       </td>
-      <td class="rev">
+      <td class="rev" data-label="Do przemyślenia">
         <input type="checkbox" class="review" id="rev${i}" title="Do przemyślenia">
       </td>
-      <td class="suptd">
+      <td class="suptd" data-label="Rodzaj wsparcia">
         <select class="type" data-i="${i}" disabled>
           <option value="WT">WT – towarzyszące (0,80)</option>
           <option value="WC">WC – częściowe (0,90)</option>
@@ -479,7 +530,7 @@ function buildRows(){
           <option value="WS">WS – szczególne (1,00)</option>
         </select>
       </td>
-      <td class="freqtd">
+      <td class="freqtd" data-label="Częstotliwość">
         <select class="freq" data-i="${i}" disabled>
           <option value="D">czasami (0,50)</option>
           <option value="C">często (0,75)</option>
@@ -487,7 +538,7 @@ function buildRows(){
           <option value="A">zawsze (1,00)</option>
         </select>
       </td>
-      <td class="prod zero" id="prod${i}">0,000</td>`;
+      <td class="prod zero" id="prod${i}" data-label="Wynik">0.000</td>`;
     rowsEl.appendChild(tr);
 
     tr.querySelector(`#self${i}`).addEventListener('change',()=>{state[i].needs=false;syncRow(i);compute();});
@@ -496,7 +547,7 @@ function buildRows(){
     tr.querySelector('.freq').addEventListener('change',e=>{state[i].freq=e.target.value;compute();});
     tr.querySelector('.review').addEventListener('change',e=>{
       state[i].review=e.target.checked;
-      tr.classList.toggle('review',e.target.checked);
+      tr.querySelector('.rev').classList.toggle('revon',e.target.checked);
       updateReviewCount(); saveState();
     });
 
@@ -505,7 +556,7 @@ function buildRows(){
     tr.querySelector('.type').value=state[i].type;
     tr.querySelector('.freq').value=state[i].freq;
     tr.querySelector('.review').checked=state[i].review;
-    tr.classList.toggle('review',state[i].review);
+    tr.querySelector('.rev').classList.toggle('revon',state[i].review);
     syncRow(i);
   });
   updateReviewCount();
@@ -588,18 +639,6 @@ function compute(){
     tr.classList.toggle('active', pct!==null && tp===pct);
   });
 
-  // podsumowanie (jak sekcja II decyzji)
-  document.getElementById('sumPoints').textContent=points;
-  const sl=document.getElementById('sumlist');
-  sl.innerHTML='';
-  prods.forEach((p,i)=>{
-    const li=document.createElement('li');
-    li.className=(p===0?'z':'')+(countedIdx.has(i)?' c':'');
-    li.innerHTML=`<span class="nm"><i>${i+1})</i>${ACTIVITIES[i]}</span>`+
-                 `<span class="pv">${fmt(p)} pkt</span>`;
-    sl.appendChild(li);
-  });
-
   saveState();
 }
 
@@ -619,7 +658,6 @@ document.getElementById('allSup').onclick =()=>setAll(true,'WC','C');
 document.getElementById('setMax').onclick =()=>setAll(true,'WS','A');
 document.getElementById('reset').onclick   =()=>setAll(false,'WT','D');
 document.getElementById('renta').addEventListener('input',compute);
-document.getElementById('printBtn').onclick=()=>window.print();
 
 // --- dymki z opisami czynności ---
 const tipEl=document.getElementById('tip');
@@ -638,17 +676,30 @@ function showTip(i,x,y){
   positionTip(x,y);
   requestAnimationFrame(()=>{tipEl.style.opacity='1';});
 }
-function hideTip(){ tipEl.style.opacity='0'; tipEl.style.display='none'; }
+let tipPinned=false;
+function hideTip(){ tipEl.style.opacity='0'; tipEl.style.display='none'; tipPinned=false; }
 rowsEl.addEventListener('mouseover',e=>{
+  if(tipPinned) return;
   const t=e.target.closest('.actname'); if(!t) return;
   showTip(+t.dataset.i, e.clientX, e.clientY);
 });
 rowsEl.addEventListener('mousemove',e=>{
-  if(tipEl.style.display==='block' && e.target.closest('.actname')) positionTip(e.clientX,e.clientY);
+  if(!tipPinned && tipEl.style.display==='block' && e.target.closest('.actname'))
+    positionTip(e.clientX,e.clientY);
 });
 rowsEl.addEventListener('mouseout',e=>{
-  if(e.target.closest('.actname')) hideTip();
+  if(!tipPinned && e.target.closest('.actname')) hideTip();
 });
+// tap / klik – przypięty dymek (dla dotyku na telefonie)
+rowsEl.addEventListener('click',e=>{
+  const t=e.target.closest('.actname'); if(!t) return;
+  e.stopPropagation();
+  const i=+t.dataset.i;
+  if(tipPinned && +tipEl.dataset.shown===i){ hideTip(); return; }
+  showTip(i, e.clientX, e.clientY);
+  tipPinned=true; tipEl.dataset.shown=i;
+});
+document.addEventListener('click',()=>{ if(tipPinned) hideTip(); });
 
 // --- obsługa profili ---
 document.getElementById('saveAsBtn').onclick=()=>{
